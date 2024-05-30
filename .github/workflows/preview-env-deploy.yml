@@ -1,5 +1,3 @@
-# .github/workflows/preview-env-deploy.yml
-
 name: Deploy Preview Environment
 
 on:
@@ -7,9 +5,10 @@ on:
     types: [opened, synchronize]
 
 env:
-  REGION: cn-n1 # set this to your LeanCloud region, e.g. cn-n1
-  APP_ID: H5Rs9BuqvfhtY06PPIaup3uC-gzGzoHsz # set this to your App ID on LeanCloud
-  GROUP: web   # set this to your group, e.g. web
+  REGION: cn-n1
+  APP_ID: 1lCdsdSexAAcZAd5ide31X1s-9Nh9j0Va
+  GROUP: web
+  TOKEN: tXG2guMwUlZvel8qAogRkAQqhRR77uF88iyvrXeoogqpT90Izm47f0b2OKQcjoaN
 
 jobs:
   deploy-preview-environment:
@@ -22,12 +21,17 @@ jobs:
 
       - name: Install lean-cli
         run: |
-          sudo curl -L -o /bin/lean https://github.com/leancloud/lean-cli/releases/download/v1.2.3/lean-linux-x64
+          sudo curl -L -o /bin/lean https://github.com/leancloud/lean-cli/releases/latest/download/lean-linux-x64
           sudo chmod +x /bin/lean
+
+      - name: Login to LeanCloud
+        env:
+          ACCESS_TOKEN: ${{ env.TOKEN }}
+        run: |
+          lean login --region ${{ env.REGION }} --token $ACCESS_TOKEN
 
       - name: Deploy
         run: |
-          lean login --region ${{ env.REGION }} --token ${{ secrets.ACCESS_TOKEN }}
           lean switch --region ${{ env.REGION }} --group ${{ env.GROUP }} ${{ env.APP_ID }}
           PREVIEW_URL=$(lean preview deploy)
           echo "PREVIEW_URL=$PREVIEW_URL" >> $GITHUB_ENV
