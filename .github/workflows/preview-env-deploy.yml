@@ -28,6 +28,10 @@ jobs:
       - name: Deploy
         run: |
           lean login --region ${{ env.REGION }} --token ${{ secrets.ACCESS_TOKEN }}
+          if [ $? -ne 0 ]; then
+            echo "Lean login failed"
+            exit 1
+          fi
           lean switch --region ${{ env.REGION }} --group ${{ env.GROUP }} ${{ env.APP_ID }}
           PREVIEW_URL=$(lean preview deploy)
           echo "PREVIEW_URL=$PREVIEW_URL" >> $GITHUB_ENV
