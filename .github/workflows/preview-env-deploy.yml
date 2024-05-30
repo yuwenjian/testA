@@ -7,9 +7,9 @@ on:
     types: [opened, synchronize]
 
 env:
-  REGION: cn-n1 # set this to your LeanCloud region, e.g. cn-n1
-  APP_ID: H5Rs9BuqvfhtY06PPIaup3uC-gzGzoHsz # set this to your App ID on LeanCloud
-  GROUP: web   # set this to your group, e.g. web
+  REGION: cn-n1
+  APP_ID: 1lCdsdSexAAcZAd5ide31X1s-9Nh9j0Va
+  GROUP: web
 
 jobs:
   deploy-preview-environment:
